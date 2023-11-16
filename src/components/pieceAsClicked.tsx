@@ -20,19 +20,46 @@ export const pieceAsClicked = (
         return chessPlace.indexOf(updatedId);
     }
     const checkCasesBasic = (x: number, y: number, id: string, listColors: string[]) => {
-        if (cases[checkCases(x, y, id)] === "" && cases[checkCases(x, y, id)] !== undefined) {
-            listColors[checkCases(x, y, id)] = "bg-green-500"
+        const index = checkCases(x, y, id)
+        let pieceNextColor = ""
+        if (index !== -1 && index < cases.length) {
+            const pieceNext = cases[checkCases(x, y, id)].match(/\/([^/]+)\.png/)
+            if (pieceNext !== null) {
+                pieceNextColor = pieceNext[1].split("-")[0]
+            }
+            if (cases[checkCases(x, y, id)] === "" || pieceNextColor === "black") {
+                listColors[checkCases(x, y, id)] = "bg-green-500"
+            }
         }
     }
     const checkCasesWhile = (x: number, y: number, id: string, listColors: string[]) => {
         let xx = x
         let yy = y
-        while (cases[checkCases(xx, yy, id)] === "" && cases[checkCases(xx, yy, id)] !== undefined) {
-            if (cases[checkCases(xx, yy, id)] === "") {
-                listColors[checkCases(xx, yy, id)] = "bg-green-500"
+        const index = checkCases(xx, yy, id)
+        let pieceNextColor = ""
+        let blackPiece = false
+        if (index !== -1 && index < cases.length) {
+            const pieceNext = cases[checkCases(xx, yy, id)].match(/\/([^/]+)\.png/)
+            if (pieceNext !== null) {
+                pieceNextColor = pieceNext[1].split("-")[0]
             }
-            xx=xx+x;
-            yy=yy+y;
+            while (cases[checkCases(xx, yy, id)] === "" && blackPiece === false || pieceNextColor === "black" && blackPiece === false) {
+                if (cases[checkCases(xx, yy, id)] === "" || pieceNextColor === "black") {
+                    listColors[checkCases(xx, yy, id)] = "bg-green-500"
+                    if (pieceNextColor === "black") {
+                        blackPiece = true
+                    }
+                }
+                xx = xx + x;
+                yy = yy + y;
+                const index = checkCases(xx, yy, id)
+                if (index !== -1 && index < cases.length) {
+                    const pieceNext = cases[checkCases(xx, yy, id)].match(/\/([^/]+)\.png/)
+                    if (pieceNext !== null) {
+                        pieceNextColor = pieceNext[1].split("-")[0]
+                    }
+                }
+            }
         }
     }
 
@@ -54,7 +81,41 @@ export const pieceAsClicked = (
                 if (res === "white-sbire") {
                     // console.log("sbire");
                     const listColors = [...chessColor]
-                    checkCasesBasic(1, 0, id, listColors)
+                    let index = checkCases(1, 0, id)
+                    // let pieceNextColor = ""
+                    if (index !== -1 && index < cases.length) {
+                        // const pieceNext = cases[checkCases(x, y, id)].match(/\/([^/]+)\.png/)
+                        // if (pieceNext !== null) {
+                        //     pieceNextColor = pieceNext[1].split("-")[0]
+                        // }
+                        if (cases[checkCases(1, 0, id)] === "") {
+                            listColors[checkCases(1, 0, id)] = "bg-green-500"
+                        }
+                    }
+                    //
+                    index = checkCases(1, 1, id)
+                    let pieceNextColor = ""
+                    if (index !== -1 && index < cases.length) {
+                        const pieceNext = cases[checkCases(1, 1, id)].match(/\/([^/]+)\.png/)
+                        if (pieceNext !== null) {
+                            pieceNextColor = pieceNext[1].split("-")[0]
+                        }
+                        if (pieceNextColor === "black") {
+                            listColors[checkCases(1, 1, id)] = "bg-green-500"
+                        }
+                    }
+                    //
+                    index = checkCases(1, -1, id)
+                    pieceNextColor = ""
+                    if (index !== -1 && index < cases.length) {
+                        const pieceNext = cases[checkCases(1, -1, id)].match(/\/([^/]+)\.png/)
+                        if (pieceNext !== null) {
+                            pieceNextColor = pieceNext[1].split("-")[0]
+                        }
+                        if (pieceNextColor === "black") {
+                            listColors[checkCases(1, -1, id)] = "bg-green-500"
+                        }
+                    }
                     setBgColor(listColors)
                 }
                 if (res === "white-tower") {
