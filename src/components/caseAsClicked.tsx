@@ -1,14 +1,16 @@
 import { SetStateAction } from "react";
 import { chessPlace, chessColor } from "./casesColor";
+import randomMove from "./randomMove";
 
-export const caseAsClicked = (
+const caseAsClicked = (
     index: number,
     cases: string[],
     setCases: React.Dispatch<SetStateAction<string[]>>,
     setBgColor: React.Dispatch<React.SetStateAction<string[]>>,
     pieceSelect: string,
     setPieceSelect: React.Dispatch<SetStateAction<string>>,
-    idSelect: string
+    idSelect: string,
+    setIdSelect: React.Dispatch<SetStateAction<string>>
     ) => {
 
     //
@@ -20,11 +22,17 @@ export const caseAsClicked = (
         
         if (regex && regex[1] === "green-500") {
             setBgColor([...chessColor]);
-            setPieceSelect("")
+            setPieceSelect("");
+            setIdSelect("");
             const copyCases: string[] = [...cases];
             copyCases[index] = `./${pieceSelect}.png`;
             copyCases[chessPlace.indexOf(idSelect)] = '';
             setCases(copyCases);
+            setTimeout(() => {
+                randomMove(copyCases, setCases);
+            }, 500);
         }
     }
 }
+
+export default caseAsClicked;

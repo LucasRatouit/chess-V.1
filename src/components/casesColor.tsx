@@ -8,18 +8,6 @@ export const chessPlace =  ["8-1","8-2","8-3","8-4","8-5","8-6","8-7","8-8",
                 "1-1","1-2","1-3","1-4","1-5","1-6","1-7","1-8",
                 ];
 
-// export let chessPlace: number[][] = [];
-// for (let i = 0; i < 8; i++) {
-//     const ids: number[][] = [];
-//     for (let x = 0; x < 8; x++) {
-//         const id: number[] = [];
-//         id.push(Math.abs(i - 8));
-//         id.push(x+1);
-//         ids.push(id)
-//     }
-//     chessPlace = chessPlace.concat(ids)
-// }
-
 export const chessColor: string[] = [];
 for (let i = 0; i < 4; i++) {
     const x: string = "bg-zinc-300";

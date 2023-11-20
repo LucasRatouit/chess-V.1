@@ -1,7 +1,7 @@
 import { SetStateAction } from "react";
 import { chessPlace, chessColor } from "./casesColor";
 
-export const pieceAsClicked = (
+const pieceAsClicked = (
     e: React.MouseEvent<HTMLImageElement>,
     cases: string[],
     setBgColor: React.Dispatch<SetStateAction<string[]>>,
@@ -78,18 +78,17 @@ export const pieceAsClicked = (
                 console.log('same ID')
                 setIdSelect("")
             } else {
+                const listColors = [...chessColor]
                 if (res === "white-sbire") {
                     // console.log("sbire");
-                    const listColors = [...chessColor]
                     let index = checkCases(1, 0, id)
-                    // let pieceNextColor = ""
                     if (index !== -1 && index < cases.length) {
-                        // const pieceNext = cases[checkCases(x, y, id)].match(/\/([^/]+)\.png/)
-                        // if (pieceNext !== null) {
-                        //     pieceNextColor = pieceNext[1].split("-")[0]
-                        // }
                         if (cases[checkCases(1, 0, id)] === "") {
+                            const idSplited = id.split("-");
                             listColors[checkCases(1, 0, id)] = "bg-green-500"
+                            if (cases[checkCases(2, 0, id)] === "" && idSplited[0] === "2") {
+                                listColors[checkCases(2, 0, id)] = "bg-green-500"
+                            }
                         }
                     }
                     //
@@ -116,20 +115,14 @@ export const pieceAsClicked = (
                             listColors[checkCases(1, -1, id)] = "bg-green-500"
                         }
                     }
-                    setBgColor(listColors)
-                }
-                if (res === "white-tower") {
+                } else if (res === "white-tower") {
                     // console.log("tower");
-                    const listColors = [...chessColor];
                     checkCasesWhile(1, 0, id, listColors);
                     checkCasesWhile(0, 1, id, listColors);
                     checkCasesWhile(-1, 0, id, listColors);
                     checkCasesWhile(0, -1, id, listColors);
-                    setBgColor(listColors);
-                }
-                if (res === "white-horse") {
+                } else if (res === "white-horse") {
                     // console.log("horse");
-                    const listColors = [...chessColor]
                     checkCasesBasic(2, 1, id, listColors);
                     checkCasesBasic(2, -1, id, listColors);
                     checkCasesBasic(1, 2, id, listColors);
@@ -138,20 +131,14 @@ export const pieceAsClicked = (
                     checkCasesBasic(-1, -2, id, listColors);
                     checkCasesBasic(-2, 1, id, listColors);
                     checkCasesBasic(-2, -1, id, listColors);
-                    setBgColor(listColors)
-                }
-                if (res === "white-crazy") {
+                } else if (res === "white-crazy") {
                     // console.log("crazy");
-                    const listColors = [...chessColor]
                     checkCasesWhile(1, 1, id, listColors)
                     checkCasesWhile(-1, -1, id, listColors)
                     checkCasesWhile(1, -1, id, listColors)
                     checkCasesWhile(-1, 1, id, listColors)
-                    setBgColor(listColors)
-                }
-                if (res === "white-queen") {
+                } else if (res === "white-queen") {
                     // console.log("queen");
-                    const listColors = [...chessColor]
                     checkCasesWhile(1, 1, id, listColors)
                     checkCasesWhile(-1, -1, id, listColors)
                     checkCasesWhile(1, -1, id, listColors)
@@ -160,11 +147,8 @@ export const pieceAsClicked = (
                     checkCasesWhile(0, 1, id, listColors)
                     checkCasesWhile(-1, 0, id, listColors)
                     checkCasesWhile(0, -1, id, listColors)
-                    setBgColor(listColors);
-                }
-                if (res === "white-king") {
-                    console.log("king");
-                    const listColors = [...chessColor]
+                } else if (res === "white-king") {
+                    // console.log("king");
                     checkCasesBasic(1, 1, id, listColors);
                     checkCasesBasic(-1, -1, id, listColors);
                     checkCasesBasic(1, 0, id, listColors);
@@ -173,9 +157,11 @@ export const pieceAsClicked = (
                     checkCasesBasic(1, -1, id, listColors);
                     checkCasesBasic(-1, 0, id, listColors);
                     checkCasesBasic(0, -1, id, listColors);
-                    setBgColor(listColors);
                 }
+                setBgColor(listColors);
             }
         }
     }
 }
+
+export default pieceAsClicked;
