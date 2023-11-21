@@ -1,4 +1,6 @@
-const startGame = (cases: string[], setCases: React.Dispatch<string[]>) => {
+import { SetStateAction } from "react";
+
+const startGame = (cases: string[], setCases: React.Dispatch<string[]>, setInfo: React.Dispatch<SetStateAction<string>>) => {
     const arr = [...cases];
     arr.fill("", 0, 63+1);
     arr.fill("./black-sbire.png", 8, 15+1);
@@ -14,6 +16,7 @@ const startGame = (cases: string[], setCases: React.Dispatch<string[]>) => {
     arr[59] = "./white-queen.png";
     arr[60] = "./white-king.png";
     setCases(arr);
+    setInfo("GOOD LUCK !")
 }
 
 export default startGame;
