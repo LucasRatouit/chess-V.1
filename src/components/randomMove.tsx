@@ -1,9 +1,11 @@
 import { SetStateAction } from "react";
 import { chessPlace } from "./casesColor";
+import verifBlackList from "./verifBlackList";
 
 const randomMove = (
     cases: string[],
     setCases: React.Dispatch<SetStateAction<string[]>>,
+    setInfo: React.Dispatch<SetStateAction<string>>,
     notMovePossibleCount = 0
     ) => {
     
@@ -72,7 +74,9 @@ const randomMove = (
     .filter(({ e }) => /black/.test(e))
     .map(({ index }) => index);
     if (!blackList.length) {
-        console.log("échec et mat");
+        // console.log("échec et mat");
+        // console.log("WHITE WIN !");
+        setInfo("WHITE WIN !");
         return;
     }
     const randomIndex = Math.floor(Math.random() * blackList.length);
@@ -178,11 +182,17 @@ const randomMove = (
             }
             copyCases[index] = '';
             setCases(copyCases);
+            if (!verifBlackList(copyCases).length) {
+                // console.log("WHITE WIN !");
+                setInfo("WHITE WIN !");
+            }
         } else if (notMovePossibleCount >= 64) {
             // console.log("Don't move possible: échec et mat");
+            // console.log("WHITE WIN !");
+            setInfo("WHITE WIN !");
         } else {
             // console.log("Don't move possible: repeat function");
-            randomMove(cases, setCases, notMovePossibleCount + 1);
+            randomMove(cases, setCases, setInfo, notMovePossibleCount + 1);
         }
     }
 }

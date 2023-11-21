@@ -1,6 +1,7 @@
 import { SetStateAction } from "react";
 import { chessPlace, chessColor } from "./casesColor";
 import randomMove from "./randomMove";
+import verifWhiteList from "./verifWhiteList";
 
 const caseAsClicked = (
     index: number,
@@ -10,7 +11,9 @@ const caseAsClicked = (
     pieceSelect: string,
     setPieceSelect: React.Dispatch<SetStateAction<string>>,
     idSelect: string,
-    setIdSelect: React.Dispatch<SetStateAction<string>>
+    setIdSelect: React.Dispatch<SetStateAction<string>>,
+    setTurnToEnemy: React.Dispatch<SetStateAction<boolean>>,
+    setInfo: React.Dispatch<SetStateAction<string>>
     ) => {
 
     //
@@ -28,8 +31,14 @@ const caseAsClicked = (
             copyCases[index] = `./${pieceSelect}.png`;
             copyCases[chessPlace.indexOf(idSelect)] = '';
             setCases(copyCases);
+            if (!verifWhiteList(copyCases).length) {
+                // console.log("BLACK WIN !");
+                setInfo("BLACK WIN !");
+            }
+            setTurnToEnemy(true);
             setTimeout(() => {
-                randomMove(copyCases, setCases);
+                randomMove(copyCases, setCases, setInfo);
+                setTurnToEnemy(false);
             }, 500);
         }
     }
